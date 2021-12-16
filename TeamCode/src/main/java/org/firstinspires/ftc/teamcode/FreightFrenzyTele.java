@@ -54,7 +54,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-@TeleOp(name="FreightFrenzyTele", group="Drive programms")  // @Autonomous(...) is the other common choice
+@TeleOp(name="AndroidStudioWorks", group="Drive programms")  // @Autonomous(...) is the other common choice
 
 public class FreightFrenzyTele extends LinearOpMode {
     double rotations;
