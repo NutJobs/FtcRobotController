@@ -20,11 +20,11 @@ public class DIYDetectionTest extends OpenCvPipeline {
     static double PERCENT_COLOR_THRESHOLD = 0.4;
     Mat mat = new Mat();
     static final Rect LEFT_ROI = new Rect(
-            new Point(60,35),
+            new Point(75,35),
             new Point(120,75));
     static final Rect RIGHT_ROI = new Rect(
-            new Point(140,35),
-            new Point(200,75));
+            new Point(240,35),
+            new Point(280,75));
 
     public DIYDetectionTest(Telemetry t) { telemetry = t; }
 
@@ -60,12 +60,12 @@ public class DIYDetectionTest extends OpenCvPipeline {
             telemetry.addData("Location", "not found");
         }else if(stoneLeft) {
             //right
-            location = Location.RIGHT;
-            telemetry.addData("Location","right");
-        }
-        else {
             location = Location.LEFT;
             telemetry.addData("Location","left");
+        }
+        else {
+            location = Location.RIGHT;
+            telemetry.addData("Location","right");
             //left
         }
         telemetry.update();
