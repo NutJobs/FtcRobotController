@@ -15,18 +15,11 @@ public class DiyDetectTester extends LinearOpMode {
     OpenCvCamera phoneCam;
     @Override
     public void runOpMode() throws InterruptedException {
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = (int)hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
         FreightFrenzyHardware robot = new FreightFrenzyHardware();
         DIYDetectionTest detector = new DIYDetectionTest(telemetry);
-
-        double frontright;
-        double frontleft;
-        double backright;
-        double backleft2;
-        double wheelMotor;
-        double elbowMotor;
 
         phoneCam.setPipeline(detector);
         phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -44,21 +37,24 @@ public class DiyDetectTester extends LinearOpMode {
 
 
         });
+        robot.init(hardwareMap);
         waitForStart();
+        double loc = 0;
         switch (detector.getLocation()) {
-            case LEFT:;
-
+            case LEFT:
+            loc = 1;
             break;
-            case RIGHT:;
-
+            case RIGHT:
+            loc = 2;
             break;
-            case NOT_FOUND:;
-
-
-
+            case NOT_FOUND:
+            loc = 0;
+            break;
         }
-        if ( detector.getLocation() == DIYDetectionTest.Location.LEFT) {
+        if (loc == 1) {
             robot.wheelMotor.setPower(1);
+        } else if(loc == 2) {
+            robot.wheelMotor.setPower(-1);
         } else {
             robot.wheelMotor.setPower(0);
         }

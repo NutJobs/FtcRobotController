@@ -16,7 +16,7 @@ public class DIYDetectionTest extends OpenCvPipeline {
         RIGHT,
         NOT_FOUND
     }
-    private Location location;
+    public Location location;
     static double PERCENT_COLOR_THRESHOLD = 0.4;
     Mat mat = new Mat();
     static final Rect LEFT_ROI = new Rect(
