@@ -31,9 +31,15 @@ public class DIYDetectionTest extends OpenCvPipeline {
     @Override
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar lowHSV = new Scalar(23,50,70);
-        Scalar highHSV = new Scalar(32,255,255);
 
+          /*==USE THESE TWO SCALRS IF YOU ARE LOOKING FOR TPU BLUE==*/
+          Scalar lowHSV = new Scalar(0,0,0);
+          Scalar highHSV = new Scalar(100,180,180);
+
+//        /*==USE THESE TWO SCALARS IF YOU ARE LOOKING FOR SKYSTONE YELLOW==*/
+//        Scalar lowHSV = new Scalar(23,50,70);
+//        Scalar highHSV = new Scalar(32,255,255);
+////hsv(220,97,60) ignore
 
         Core.inRange(mat, lowHSV, highHSV, mat);
         Mat left = mat.submat(LEFT_ROI);
@@ -71,9 +77,9 @@ public class DIYDetectionTest extends OpenCvPipeline {
         telemetry.update();
 
         Imgproc.cvtColor(mat, mat, Imgproc.COLOR_GRAY2RGB);
-
-        Scalar colorNoDuck = new Scalar(255, 0,0 );
-        Scalar colorDuck = new Scalar(0,255,0);
+//                                      R   G   B
+        Scalar colorNoDuck = new Scalar(255, 0, 0 );
+        Scalar colorDuck = new Scalar(  0 ,255, 0 );
 
         Imgproc.rectangle(mat, LEFT_ROI, location ==Location.LEFT? colorDuck:colorNoDuck);
         Imgproc.rectangle(mat, RIGHT_ROI, location ==Location.RIGHT? colorDuck:colorNoDuck);
