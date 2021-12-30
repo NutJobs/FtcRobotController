@@ -41,13 +41,13 @@ public class DiyDetectTester extends LinearOpMode {
         waitForStart();
         double loc = 0;
         switch (detector.getLocation()) {
-            case LEFT:
+            case SPOTTWO:
             loc = 1;
             break;
-            case RIGHT:
+            case SPOTONE:
             loc = 2;
             break;
-            case NOT_FOUND:
+            case SPOTTHREE:
             loc = 0;
             break;
         }

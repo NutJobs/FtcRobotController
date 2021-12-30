@@ -12,20 +12,29 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class DIYDetectionTest extends OpenCvPipeline {
     Telemetry telemetry;
     public enum Location {
-        LEFT,
-        RIGHT,
-        NOT_FOUND
+        SPOTONE,
+        SPOTTWO,
+        SPOTTHREE
     }
     public Location location;
     static double PERCENT_COLOR_THRESHOLD = 0.4;
     Mat mat = new Mat();
+    /*
     static final Rect LEFT_ROI = new Rect(
-            new Point(75,35),
-            new Point(120,75));
+            new Point(70,35),
+            new Point(115,75));
     static final Rect RIGHT_ROI = new Rect(
-            new Point(240,35),
-            new Point(280,75));
+            new Point(235,35),
+            new Point(275,75));
+*/
+    static final Rect RIGHT_ROI = new Rect(
+            new Point(235,120),
+            new Point(275,160));
 
+    static final Rect LEFT_ROI = new Rect(
+            new Point(50,120),
+            new Point(90,160)
+    );
     public DIYDetectionTest(Telemetry t) { telemetry = t; }
 
     @Override
@@ -33,6 +42,7 @@ public class DIYDetectionTest extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
           /*==USE THESE TWO SCALRS IF YOU ARE LOOKING FOR TPU BLUE==*/
+          /*==TPU BLUE WILL SHOW UP BLACK ON THE CAMERA STREAM==*/
           Scalar lowHSV = new Scalar(0,0,0);
           Scalar highHSV = new Scalar(100,180,180);
 
@@ -57,21 +67,21 @@ public class DIYDetectionTest extends OpenCvPipeline {
         telemetry.addData("Left percentage", Math.round(leftValue * 100) + "%");
         telemetry.addData("Right percentage", Math.round(rightValue * 100) + "%");
 
-        boolean stoneLeft = leftValue > PERCENT_COLOR_THRESHOLD;
-        boolean stoneRight = rightValue > PERCENT_COLOR_THRESHOLD;
+        boolean stoneLeft = leftValue < PERCENT_COLOR_THRESHOLD;
+        boolean stoneRight = rightValue < PERCENT_COLOR_THRESHOLD;
 
-        if (stoneLeft && stoneRight) {
+        if ((!(stoneLeft)) && (!(stoneRight))) {
             //not found
-            location = Location.NOT_FOUND;
-            telemetry.addData("Location", "not found");
+            location = Location.SPOTTHREE;
+            telemetry.addData("Location", "spot three");
         }else if(stoneLeft) {
             //right
-            location = Location.LEFT;
-            telemetry.addData("Location","left");
+            location = Location.SPOTTWO;
+            telemetry.addData("Location","spot two");
         }
         else {
-            location = Location.RIGHT;
-            telemetry.addData("Location","right");
+            location = Location.SPOTONE;
+            telemetry.addData("Location","spot one");
             //left
         }
         telemetry.update();
@@ -80,9 +90,10 @@ public class DIYDetectionTest extends OpenCvPipeline {
 //                                      R   G   B
         Scalar colorNoDuck = new Scalar(255, 0, 0 );
         Scalar colorDuck = new Scalar(  0 ,255, 0 );
+        Scalar pink = new Scalar(255,0,255);
 
-        Imgproc.rectangle(mat, LEFT_ROI, location ==Location.LEFT? colorDuck:colorNoDuck);
-        Imgproc.rectangle(mat, RIGHT_ROI, location ==Location.RIGHT? colorDuck:colorNoDuck);
+        Imgproc.rectangle(mat, LEFT_ROI, location ==Location.SPOTONE? pink:colorNoDuck);
+        Imgproc.rectangle(mat, RIGHT_ROI, location ==Location.SPOTTWO? colorDuck:colorNoDuck);
 
         return mat;
     }

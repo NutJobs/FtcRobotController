@@ -225,65 +225,7 @@ public class BlueBarcodeOne extends LinearOpMode {
         // encoderDriveV2(0.3, 3, 3, 10);
         // encoderDriveV2(0.3, -5.2, 5.2, 10);
         //encoderDriveV2(0.7, -13, -13, 10);
-        
-           
-          
-                
-                
-                  
-                            
-                            
-                            
-                      
-                    
-                
-                
-                
-                
-                      
-                        
-                        
-                
-                    
-               
-                    
-                    
-                    
-                    
-                        
-                   
-                        
-                        
-                        
-                         
-                        
-                        
-                
-                    
-                    
-                        
-                    
-                    
-               
-                    
-                
-                    
-                
-                    
-                    
-                   
 
-                
-                    
-                   
-                
-                    
-                    
-                    
-                
-            
-               
-                   
                 // ****DROP WOBBLE GOAL HERE****//
                 /*
                 if (tfod != null) {
