@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -121,43 +122,49 @@ public class DetectionAuto0 extends LinearOpMode {
 //==========code here==========\\
         while (opModeIsActive()) {
 
-            DIYDetectionTest.Location L = detector.getLocation();
-            sleep(1000);
-            if (L == DIYDetectionTest.Location.SPOTTWO){
+            //DIYDetectionTest.Location L = detector.getLocation();
+            sleep(100);
+            if ((detector.isRight())){
                 //spot two
-            blockState = 2;
-            }else if(L == DIYDetectionTest.Location.SPOTONE){
-                //spot one
             blockState = 1;
-            }else  if(L == DIYDetectionTest.Location.SPOTTHREE) {
+            }if((detector.isLeft())){
+                //spot one
+            blockState = 2;
+            }if((!(detector.isLeft()))&&(!(detector.isRight()))) {
             blockState = 3;
                 //detector.getLocation() should be spot three
                 //spot three
             }
+            sleep(200);
             //if pointed straight at barcode, do these
             //(0.2, 1.8,1.8,10);
             //encoderDriveV2(0.2, -3.2,3.2,10);
 
             //if sideways, do these
             blockState1 = blockState;
-            mecanum_encoder_drive(0.1, 6,-6,10);
+            telemetry.addData("Location: ",detector.getLocation());
+            telemetry.addData("BlockState: ",blockState);
+            telemetry.addData("BlockState1: ", blockState1);
+            telemetry.update();
+            sleep(200);
             if(blockState1 == 1) {
                 //move up like 5cm
                 robot.liftMotor.setPower(1);
-                sleep(250);
+                sleep(350);
                 robot.liftMotor.setPower(0);
-            }if(blockState1 == 2) {
+            }else if(blockState1 == 2) {
                 //move up like 6in
                 robot.liftMotor.setPower(1);
-                sleep(700);
+                sleep(650);
                 robot.liftMotor.setPower(0);
-            }if(blockState1 == 3) {
+            }else if(blockState1 == 3) {
                 //move up like 9in
                 robot.liftMotor.setPower(1);
-                sleep(1150);
+                sleep(1200);
                 robot.liftMotor.setPower(0);
             }
-            encoderDriveV2(0.3, 1,1,10);
+            //mecanum_encoder_drive(0.1, 6,-6,10);
+            //encoderDriveV2(0.3, 1,1,10);
 
             sleep(90000);
         }

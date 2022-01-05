@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -10,12 +12,19 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 public class DIYDetectionTest extends OpenCvPipeline {
+
+    FreightFrenzyHardware robot = new FreightFrenzyHardware();
+    private ElapsedTime runtime = new ElapsedTime();
+    MecanumEncoderMethods auto = new MecanumEncoderMethods();
+
     Telemetry telemetry;
     public enum Location {
         SPOTONE,
         SPOTTWO,
         SPOTTHREE
     }
+    public boolean stoneLeft;
+    public boolean stoneRight;
     public Location location;
     static double PERCENT_COLOR_THRESHOLD = 0.4;
     Mat mat = new Mat();
@@ -67,8 +76,8 @@ public class DIYDetectionTest extends OpenCvPipeline {
         telemetry.addData("Left percentage", Math.round(leftValue * 100) + "%");
         telemetry.addData("Right percentage", Math.round(rightValue * 100) + "%");
 
-        boolean stoneLeft = leftValue < PERCENT_COLOR_THRESHOLD;
-        boolean stoneRight = rightValue < PERCENT_COLOR_THRESHOLD;
+        stoneLeft = leftValue < PERCENT_COLOR_THRESHOLD;
+        stoneRight = rightValue < PERCENT_COLOR_THRESHOLD;
 
         if ((!(stoneLeft)) && (!(stoneRight))) {
             //not found
@@ -78,11 +87,13 @@ public class DIYDetectionTest extends OpenCvPipeline {
             //right
             location = Location.SPOTTWO;
             telemetry.addData("Location","spot two");
+
         }
-        else {
+        else  if(stoneRight){
             location = Location.SPOTONE;
             telemetry.addData("Location","spot one");
             //left
+
         }
         telemetry.update();
 
@@ -101,4 +112,11 @@ public class DIYDetectionTest extends OpenCvPipeline {
     public Location getLocation() {
         return location;
     }
+    public boolean isRight() {
+        return stoneRight;
+    }
+    public boolean isLeft() {
+        return stoneLeft;
+    }
 }
+
