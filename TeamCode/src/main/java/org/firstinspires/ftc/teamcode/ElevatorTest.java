@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+@Disabled
 @Autonomous(name="ElevatorTest", group="2020/2021 auto programms")
 public class ElevatorTest extends LinearOpMode {
     FreightFrenzyHardware robot = new FreightFrenzyHardware();

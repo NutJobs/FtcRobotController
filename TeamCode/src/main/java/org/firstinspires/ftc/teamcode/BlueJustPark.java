@@ -207,7 +207,7 @@ public class BlueJustPark extends LinearOpMode {
         //   robot.liftMotor.setPower(-1);
         //   sleep(300);
         //   robot.liftMotor.setPower(0);
-           mecanum_encoder_drive(0.3, -15, 15, 10);
+           mecanum_encoder_drive(0.2, -15, 15, 10);
            
         //   encoderDriveV2(0.2, 2.5, 2.5, 10);
         

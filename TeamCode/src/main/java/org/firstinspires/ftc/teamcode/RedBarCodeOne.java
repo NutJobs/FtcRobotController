@@ -70,7 +70,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-
+@Disabled
 @Autonomous(name="RedBarCodeOne", group="2020/2021 auto programms") 
 public class RedBarCodeOne extends LinearOpMode {
     private DistanceSensor sensorRange;

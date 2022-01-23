@@ -54,7 +54,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-@TeleOp(name="AndroidStudioWorks", group="Drive programms")  // @Autonomous(...) is the other common choice
+@TeleOp(name="FreightFrenzyTele", group="Drive programms")  // @Autonomous(...) is the other common choice
 
 public class FreightFrenzyTele extends LinearOpMode {
     double rotations;
@@ -98,7 +98,8 @@ private ElapsedTime lftbmpr = new ElapsedTime();
 
     while (opModeIsActive()) {
         
-        
+        //(float)0.5*
+        //^^^^ added to line 107 to bandaid the speed problem, never tested
 
 if(Math.abs(gamepad1.left_stick_y)>0.2 || Math.abs(gamepad1.right_stick_y)>0.2 || Math.abs(gamepad1.left_stick_x)>0.2){
       Left = -gamepad1.left_stick_y + gamepad1.left_stick_x;
@@ -169,17 +170,35 @@ if(Math.abs(gamepad1.left_stick_y)>0.2 || Math.abs(gamepad1.right_stick_y)>0.2 |
      } else {
          robot.armMotor.setPower(0);
      }
+
+     if(gamepad2.dpad_left) {
+         robot.armServo.setPosition(0);
+     } else {
+         robot.armServo.setPosition(1);
+     }
+
+//     if(gamepad2.left_bumper) {
+//         robot.armMotor.setPower(1);
+//     } else {
+//         robot.armMotor.setPower(0);
+//     }
+//
+//     if(gamepad2.right_bumper) {
+//         robot.armMotor.setPower(-1);
+//     } else {
+//         robot.armMotor.setPower(0);
+//     }
      
      if (gamepad2.y) {
-        robot.collectorServo.setPosition(1);
-         robot.fingerServo.setPosition(0);
+        robot.fingerServo.setPosition(0);
+         robot.elevMotor.setPower(1);
      
      } else if (gamepad2.a) {
-         robot.collectorServo.setPosition(0);
          robot.fingerServo.setPosition(1);
+         robot.elevMotor.setPower(-1);
      } else {
-         robot.collectorServo.setPosition(0.5);
          robot.fingerServo.setPosition(0.5);
+         robot.elevMotor.setPower(0);
      }
      
      if (gamepad2.x) {
@@ -189,7 +208,7 @@ if(Math.abs(gamepad1.left_stick_y)>0.2 || Math.abs(gamepad1.right_stick_y)>0.2 |
      }
      
      if (gamepad2.b) {
-         robot.wheelMotor.setPower(-1);
+         robot.wheelMotor.setPower(-0.75);
      } else {
          robot.wheelMotor.setPower(0);
      }

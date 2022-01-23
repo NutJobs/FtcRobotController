@@ -14,16 +14,16 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 
-@Autonomous(name="DetectionAuto0", group="2020/2021 auto programms")
-public class DetectionAuto0 extends LinearOpMode {
+@Autonomous(name="RedCarouselSide", group="2020/2021 auto programms")
+public class RedCarouselSide extends LinearOpMode {
     OpenCvCamera phoneCam;
     private int blockState1 = 0;
     private int blockState = 0;
     //private enum detectState {
-   //     spotONE,
-   //     spotTWO,
-   //     spotTHREE
-   // }
+    //     spotONE,
+    //     spotTWO,
+    //     spotTHREE
+    // }
     //detectState dtState;
     private DistanceSensor sensorRange;
     private DistanceSensor sensorRange2;
@@ -126,12 +126,12 @@ public class DetectionAuto0 extends LinearOpMode {
             sleep(100);
             if ((detector.isRight())){
                 //spot two
-            blockState = 1;
+                blockState = 1;
             }if((detector.isLeft())){
                 //spot one
-            blockState = 2;
+                blockState = 2;
             }if((!(detector.isLeft()))&&(!(detector.isRight()))) {
-            blockState = 3;
+                blockState = 3;
                 //detector.getLocation() should be spot three
                 //spot three
             }
@@ -147,24 +147,58 @@ public class DetectionAuto0 extends LinearOpMode {
             telemetry.addData("BlockState1: ", blockState1);
             telemetry.update();
             sleep(200);
-            if(blockState1 == 1) {
+            if(blockState1 == 1) { //position 3
                 //move up like 5cm
                 robot.liftMotor.setPower(1);
-                sleep(350);
+                sleep(1600);
                 robot.liftMotor.setPower(0);
-            }else if(blockState1 == 2) {
+
+            }else if(blockState1 == 2) { //position 2
                 //move up like 6in
                 robot.liftMotor.setPower(1);
                 sleep(650);
                 robot.liftMotor.setPower(0);
-            }else if(blockState1 == 3) {
+                encoderDriveV2(0.2, 0.7, 0.7,10 );
+            }else if(blockState1 == 3) { //position 1
                 //move up like 9in
                 robot.liftMotor.setPower(1);
-                sleep(1200);
+                sleep(350);
                 robot.liftMotor.setPower(0);
+
             }
-            //mecanum_encoder_drive(0.1, 6,-6,10);
-            //encoderDriveV2(0.3, 1,1,10);
+            robot.frontRight.setPower(-0.3);
+            robot.backRight.setPower(-0.3);
+            sleep(1300);
+            robot.frontRight.setPower(0);
+            robot.backRight.setPower(0);
+            mecanum_encoder_drive(0.3, -7.25, 7.25, 10);
+            encoderDriveV2(0.2, 0.3,0.3,10);
+            mecanum_encoder_drive(0.2, -0.5,0.5,10);
+            robot.wheelMotor.setPower(1);
+            sleep(4000);
+            robot.wheelMotor.setPower(0);
+            encoderDriveV2(0.2, 0.5, -0.5,10);
+            encoderDriveV2(0.3, 4.55,4.55,10);
+            encoderDriveV2(0.3,2.5,-2.5,10);
+            encoderDriveV2(0.3, -2,-2,2);
+            encoderDriveV2(0.3, 3.2,3.2,10);
+            mecanum_encoder_drive(0.3,0.25,0.25,10);
+            sleep(600);
+            robot.elevMotor.setPower(-1);
+            sleep(800);
+            robot.elevMotor.setPower(0);
+            encoderDriveV2(0.3,-5,-5,10);
+            mecanum_encoder_drive(0.2,2.5,-2.5,10);
+            //robot.fingerServo.setPosition(0.5);
+            //encoderDriveV2(0.3, -5, -5, 10);
+            //sleep(600);
+            //mecanum_encoder_drive(0.2, -7, 7, 10);
+            //encoderDriveV2(0.2, 0.2, 0.2,10);
+            //robot.wheelMotor.setPower(-1);
+            //sleep(4000);
+            //robot.wheelMotor.setPower(0);
+            //mecanum_encoder_drive(0.3,4.8,-4.8,10);
+            //encoderDriveV2(0.3, -1.5, -1.5, 3);
 
             sleep(90000);
         }
@@ -387,7 +421,7 @@ public class DetectionAuto0 extends LinearOpMode {
             robot.frontRight.setPower(-.5);
             robot.backLeft.setPower(-.5);
             robot.backRight.setPower(-.5);
-sleep(10);
+            sleep(10);
             robot.frontLeft.setPower(0);
             robot.frontRight.setPower(0);
             robot.backLeft.setPower(0);

@@ -60,6 +60,7 @@ public class FreightFrenzyHardware {
   public DcMotor liftMotor = null;
   public DcMotor armMotor = null;
     public DcMotor wheelMotor = null;
+    public DcMotor elevMotor = null;
     //public DcMotor ramp = null;
     // public DcMotor wobble = null;
     //public DcMotor collector = null;
@@ -89,6 +90,7 @@ public class FreightFrenzyHardware {
     public Servo collectorServo = null;
     //public Servo markerServo = null;
     public Servo fingerServo = null;
+    public Servo armServo = null;
     // RIP Yeeeeeeeeeeeeeeeeeeeeeeet
    
     /* Local OpMode members. */
@@ -116,9 +118,11 @@ public class FreightFrenzyHardware {
         liftMotor = hwMap.get(DcMotor.class, "liftMotor");
         armMotor = hwMap.get(DcMotor.class, "armMotor");
         wheelMotor = hwMap.get(DcMotor.class, "wheelMotor");
+        elevMotor = hwMap.get(DcMotor.class, "elevMotor");
         // ramp = hwMap.get(DcMotor.class, "ramp");
         // munchie = hwMap.get(Servo.class, "munchie");
         collectorServo = hwMap.get(Servo.class, "collectorServo");
+        armServo = hwMap.get(Servo.class, "armServo");
         // //wheelServo = hwMap.get(Servo.class, "wheelServo");
       
         //markerServo = hwMap.get(Servo.class, "markerServo");
