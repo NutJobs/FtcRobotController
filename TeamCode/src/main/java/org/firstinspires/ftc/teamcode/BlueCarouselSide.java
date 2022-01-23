@@ -180,7 +180,7 @@ public class BlueCarouselSide extends LinearOpMode {
             sleep(600);
             mecanum_encoder_drive(0.2, -3.5, 3.5, 10);
             encoderDriveV2(0.2, -0.3, -0.3,2);
-            mecanum_encoder_drive(0.2, -2.9, 2.9, 10);
+            mecanum_encoder_drive(0.2, -3, 3, 10);
             encoderDriveV2(0.2, 0.3, 0.3,10);
             robot.wheelMotor.setPower(-1);
             sleep(4000);
