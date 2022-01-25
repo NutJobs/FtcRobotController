@@ -16,15 +16,16 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 @Autonomous(name="BlueCarouselSide", group="2020/2021 auto programms")
 public class BlueCarouselSide extends LinearOpMode {
+
+    //VISION STUFF HERE:
     OpenCvCamera phoneCam;
     private int blockState1 = 0;
     private int blockState = 0;
-    //private enum detectState {
-   //     spotONE,
-   //     spotTWO,
-   //     spotTHREE
-   // }
-    //detectState dtState;
+    // color sensor stuff (declarations)
+    final double SCALE_FACTOR = 255;
+    float hsvValues[] = {0F, 0F, 0F};
+    final float values[] = hsvValues;
+
     private DistanceSensor sensorRange;
     private DistanceSensor sensorRange2;
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
@@ -37,10 +38,6 @@ public class BlueCarouselSide extends LinearOpMode {
     public int Attempts = 0;
     public String Labels = "";
     public int colorAttempts = 0;
-    // color sensor stuff (declarations)
-    final double SCALE_FACTOR = 255;
-    float hsvValues[] = {0F, 0F, 0F};
-    final float values[] = hsvValues;
     int isRing = 2; /* 1 = yes | 0 = no */
     double ringColor;
     double ringRGB;

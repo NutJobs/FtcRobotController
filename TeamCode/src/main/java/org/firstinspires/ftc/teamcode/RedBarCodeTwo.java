@@ -59,6 +59,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
 /**
  * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -73,6 +77,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 @Autonomous(name="RedBarCodeTwo", group="2020/2021 auto programms") 
 public class RedBarCodeTwo extends LinearOpMode {
+    OpenCvCamera phoneCam;
+    int blockState = -1;
+    int blockState1 = -1;
     private DistanceSensor sensorRange;
     private DistanceSensor sensorRange2;
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
@@ -164,6 +171,44 @@ public class RedBarCodeTwo extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        int cameraMonitorViewId = (int)hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+
+        //FreightFrenzyHardware robot = new FreightFrenzyHardware();
+        DIYDetectionTest detector = new DIYDetectionTest(telemetry);
+
+        phoneCam.setPipeline(detector);
+        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+
+
+        });
+        sleep(100);
+
+        if (!(detector.isRight())){
+            //spot two
+            blockState = 1;
+        }if(!(detector.isLeft())){
+            //spot one
+            blockState = 2;
+        }if((!(detector.isLeft()))&&(!(detector.isRight()))) {
+            blockState = 3;
+            //detector.getLocation() should be spot three
+            //spot three
+        }
+        sleep(200);
+
+
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         //       public void runOpMode() throws InterruptedException {       
@@ -190,10 +235,56 @@ public class RedBarCodeTwo extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        
+
+        sleep(100);
+        if (!(detector.isRight())){
+            //spot two
+            blockState = 1;
+        }if(!(detector.isLeft())){
+            //spot one
+            blockState = 2;
+        }if((!(detector.isLeft()))&&(!(detector.isRight()))) {
+            blockState = 3;
+            //detector.getLocation() should be spot three
+            //spot three
+        }
+        sleep(200);
+        blockState1 = blockState;
+        telemetry.addData("Location: ",detector.getLocation());
+        telemetry.addData("BlockState: ",blockState);
+        telemetry.addData("BlockState1: ", blockState1);
+        telemetry.update();
+        sleep(200);
+        if(blockState1 == 1) {
+            //move up like 5cm
+            robot.liftMotor.setPower(1);
+            sleep(350);
+            robot.liftMotor.setPower(0);
+            encoderDriveV2(0.2, 0.8, 0.8, 10);
+
+        }else if(blockState1 == 2) {
+            //move up like 6in
+            robot.liftMotor.setPower(1);
+            sleep(700);
+            robot.liftMotor.setPower(0);
+            encoderDriveV2(0.2, 0.8, 0.8,10 );
+        }else if(blockState1 == 3) {
+            //move up like 9in
+            robot.liftMotor.setPower(1);
+            sleep(1600);
+            robot.liftMotor.setPower(0);
+
+        }
         //
-        //Code here 
-           robot.liftMotor.setPower(1);
+        //Code here
+        robot.frontRight.setPower(-0.3);
+        robot.backRight.setPower(-0.3);
+        sleep(1400);
+        robot.frontRight.setPower(0);
+        robot.backRight.setPower(0);
+        sleep(300);
+/*
+        robot.liftMotor.setPower(1);
            sleep(600);
            robot.liftMotor.setPower(0);
            encoderDriveV2(0.3, 1.75, 1.75, 10);
@@ -213,7 +304,7 @@ public class RedBarCodeTwo extends LinearOpMode {
         
         
         
-        
+*/
         // mecanum_encoder_drive(0.3, 2, -2, 10);
         // robot.wheelMotor.setPower(-1);
         // encoderDriveV2(0.2, -0.4, 0.4, 10);
